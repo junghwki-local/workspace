@@ -10,12 +10,20 @@ export default function HeaderActions() {
   return (
     <div className="flex items-center gap-3">
       {session && (
-        <Link
-          href="/write"
-          className="text-white text-sm px-3 py-1 border border-white/40 hover:border-white transition-colors"
-        >
-          + 글쓰기
-        </Link>
+        <>
+          <Link
+            href="/drafts"
+            className="text-white text-sm hover:opacity-70 transition-opacity"
+          >
+            임시저장
+          </Link>
+          <Link
+            href="/write"
+            className="text-white text-sm px-3 py-1 border border-white/40 hover:border-white transition-colors"
+          >
+            + 글쓰기
+          </Link>
+        </>
       )}
       <SearchBar />
     </div>

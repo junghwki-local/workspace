@@ -7,6 +7,9 @@ import { formatDate, sanitizeContent, stripHtml, getCategoryColor } from "@/lib/
 import PageTransition from "@/components/animations/PageTransition";
 import CommentSectionClient from "@/components/comments/CommentSectionClient";
 import PostAdminActions from "@/components/post/PostAdminActions";
+import RelatedPosts from "@/components/post/RelatedPosts";
+import ViewCounter from "@/components/post/ViewCounter";
+import { getViewCount } from "@/lib/supabase/views";
 
 
 interface PostPageProps {
@@ -19,25 +22,29 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
 
   if (!post) return { title: "Not Found" };
 
+  const title = stripHtml(post.title.rendered);
   const description = stripHtml(post.excerpt.rendered).slice(0, 160);
   const image = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
+  const category = post._embedded?.["wp:term"]?.[0]?.[0]?.name ?? "";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+  const ogImageUrl = `${siteUrl}/api/og?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&category=${encodeURIComponent(category)}`;
 
   return {
-    title: stripHtml(post.title.rendered),
+    title,
     description,
     openGraph: {
-      title: stripHtml(post.title.rendered),
+      title,
       description,
-      images: image ? [{ url: image }] : [],
+      images: [{ url: image ?? ogImageUrl }],
       type: "article",
       publishedTime: post.date,
       modifiedTime: post.modified,
     },
     twitter: {
       card: "summary_large_image",
-      title: stripHtml(post.title.rendered),
+      title,
       description,
-      images: image ? [image] : [],
+      images: [image ?? ogImageUrl],
     },
   };
 }
@@ -52,6 +59,7 @@ export default async function PostPage({ params }: PostPageProps) {
   const categories = post._embedded?.["wp:term"]?.[0] ?? [];
   const tags = post._embedded?.["wp:term"]?.[1] ?? [];
   const sanitizedContent = sanitizeContent(post.content.rendered);
+  const initialViewCount = await getViewCount(post.id).catch(() => 0);
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
   const jsonLd = {
@@ -101,6 +109,7 @@ export default async function PostPage({ params }: PostPageProps) {
                 </Link>
               ))}
               <time className="text-xs text-zinc-500 ml-2">{formatDate(post.date)}</time>
+              <ViewCounter postId={post.id} initialCount={initialViewCount} />
             </div>
 
             {/* 제목 */}
@@ -158,6 +167,9 @@ export default async function PostPage({ params }: PostPageProps) {
                 ))}
               </div>
             )}
+
+            {/* 관련 글 */}
+            <RelatedPosts currentPostId={post.id} categoryId={categories[0]?.id} />
 
             {/* 댓글 */}
             <CommentSectionClient postId={post.id} />
