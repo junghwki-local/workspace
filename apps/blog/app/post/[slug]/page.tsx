@@ -5,6 +5,7 @@ import Link from "next/link";
 import { getPostBySlug } from "@/lib/wordpress/api";
 import { formatDate, sanitizeContent, stripHtml, getCategoryColor } from "@/lib/utils";
 import PageTransition from "@/components/animations/PageTransition";
+import CommentSectionClient from "@/components/comments/CommentSectionClient";
 
 export const dynamic = "force-dynamic";
 
@@ -126,6 +127,9 @@ export default async function PostPage({ params }: PostPageProps) {
                 ))}
               </div>
             )}
+
+            {/* 댓글 */}
+            <CommentSectionClient postId={post.id} />
 
             {/* 뒤로가기 */}
             <div className="mt-12 pt-8 border-t border-zinc-800">
