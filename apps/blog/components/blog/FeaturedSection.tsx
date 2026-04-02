@@ -1,5 +1,6 @@
-import Link from "next/link";
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import type { WPPost } from "@/lib/wordpress/types";
 import { formatDate, getCategoryColor, stripHtml } from "@/lib/utils";
 
@@ -9,7 +10,8 @@ interface FeaturedSectionProps {
   categorySlug?: string;
 }
 
-export default function FeaturedSection({ post, categoryName, categorySlug }: FeaturedSectionProps) {
+export default async function FeaturedSection({ post, categoryName, categorySlug }: FeaturedSectionProps) {
+  const t = await getTranslations("blog");
   const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0];
   const categories = post._embedded?.["wp:term"]?.[0] ?? [];
   const primaryCategory = categorySlug
@@ -71,7 +73,7 @@ export default function FeaturedSection({ post, categoryName, categorySlug }: Fe
             {stripHtml(post.excerpt.rendered)}
           </p>
           <span className="inline-flex items-center gap-2 text-sm font-semibold text-zinc-900 dark:text-white group-hover:gap-4 transition-all duration-300">
-            읽어보기
+            {t("readMore")}
             <span className="group-hover:translate-x-1 transition-transform">→</span>
           </span>
         </div>

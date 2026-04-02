@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import type { WPPost } from "@/lib/wordpress/types";
 import { formatDate, getCategoryColor, stripHtml } from "@/lib/utils";
