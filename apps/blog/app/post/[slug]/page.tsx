@@ -6,6 +6,7 @@ import { getPostBySlug } from "@/lib/wordpress/api";
 import { formatDate, sanitizeContent, stripHtml, getCategoryColor } from "@/lib/utils";
 import PageTransition from "@/components/animations/PageTransition";
 import CommentSectionClient from "@/components/comments/CommentSectionClient";
+import PostAdminActions from "@/components/post/PostAdminActions";
 
 
 interface PostPageProps {
@@ -52,8 +53,38 @@ export default async function PostPage({ params }: PostPageProps) {
   const tags = post._embedded?.["wp:term"]?.[1] ?? [];
   const sanitizedContent = sanitizeContent(post.content.rendered);
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: stripHtml(post.title.rendered),
+    description: stripHtml(post.excerpt.rendered).slice(0, 160),
+    datePublished: post.date,
+    dateModified: post.modified,
+    url: `${siteUrl}/post/${slug}`,
+    ...(featuredImage && {
+      image: {
+        "@type": "ImageObject",
+        url: featuredImage.source_url,
+        width: featuredImage.width,
+        height: featuredImage.height,
+      },
+    }),
+    author: { "@type": "Person", name: "Admin" },
+    publisher: {
+      "@type": "Organization",
+      name: "Blog",
+      url: siteUrl,
+    },
+    keywords: tags.map((t) => t.name).join(", "),
+  };
+
   return (
     <PageTransition>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <article className="pt-24 pb-16 min-h-screen">
         {/* 헤더 */}
         <header className="max-w-screen-xl mx-auto px-4 md:px-8 mb-10 md:mb-16">
@@ -98,6 +129,7 @@ export default async function PostPage({ params }: PostPageProps) {
         {/* 본문 */}
         <div className="max-w-screen-xl mx-auto px-4 md:px-8">
           <div className="max-w-3xl mx-auto">
+            <PostAdminActions postId={post.id} />
             <div
               className="prose prose-invert prose-lg max-w-none
                 prose-headings:font-bold prose-headings:tracking-tight

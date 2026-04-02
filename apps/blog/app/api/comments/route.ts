@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { addComment } from "@/lib/supabase/comments";
+import { rateLimit, getIP } from "@/lib/rate-limit";
 import { z } from "zod";
 import { createHash } from "crypto";
 
@@ -15,6 +16,11 @@ function hashPassword(password: string): string {
 }
 
 export async function POST(req: NextRequest) {
+  const { success } = rateLimit(`comment:${getIP(req)}`, { limit: 5, windowMs: 60_000 });
+  if (!success) {
+    return NextResponse.json({ error: "너무 많은 요청입니다. 잠시 후 다시 시도해주세요." }, { status: 429 });
+  }
+
   const body: unknown = await req.json();
   const parsed = AddCommentSchema.safeParse(body);
 

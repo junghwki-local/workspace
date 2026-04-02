@@ -3,13 +3,14 @@ import { NextResponse } from "next/server";
 
 export default auth((req) => {
   const isLoggedIn = !!req.auth;
-  const isWritePage = req.nextUrl.pathname.startsWith("/write");
+  const { pathname } = req.nextUrl;
+  const isProtected = pathname.startsWith("/write") || pathname.startsWith("/edit");
 
-  if (isWritePage && !isLoggedIn) {
+  if (isProtected && !isLoggedIn) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 });
 
 export const config = {
-  matcher: ["/write/:path*"],
+  matcher: ["/write/:path*", "/edit/:path*"],
 };
