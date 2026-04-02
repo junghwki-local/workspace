@@ -12,12 +12,19 @@ import QueryProvider from "@/components/providers/QueryProvider";
 import ThemeProvider from "@/components/providers/ThemeProvider";
 import { routing } from "@/i18n/routing";
 
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://your-domain.com";
+
 export const metadata: Metadata = {
   title: {
     default: "Blog",
     template: "%s | Blog",
   },
   description: "WordPress Headless Blog powered by Next.js",
+  alternates: {
+    types: {
+      "application/rss+xml": `${BASE_URL}/feed.xml`,
+    },
+  },
 };
 
 export function generateStaticParams() {
