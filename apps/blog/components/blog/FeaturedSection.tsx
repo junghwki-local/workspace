@@ -18,50 +18,65 @@ export default function FeaturedSection({ post, categoryName, categorySlug }: Fe
   const colorClass = getCategoryColor(primaryCategory.slug, primaryCategory.name);
 
   return (
-    <div className="flex flex-col lg:flex-row w-full min-h-[60vh] lg:min-h-[80vh]">
-      {/* 왼쪽: 스티키 이미지 */}
-      <div className="relative w-full lg:w-1/2 h-64 sm:h-80 lg:h-auto lg:sticky lg:top-0 lg:self-start overflow-hidden">
-        <div className="absolute inset-0 bg-black/30 z-10" />
-        {featuredImage ? (
-          <Image
-            src={featuredImage.source_url}
-            alt={featuredImage.alt_text || stripHtml(post.title.rendered)}
-            fill
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-cover"
-            priority
-          />
-        ) : (
-          <div className={`w-full h-full ${colorClass}`} />
-        )}
-        {/* 카테고리 라벨 */}
-        {primaryCategory.name && (
-          <div className="absolute bottom-6 left-6 z-20">
-            <span className={`text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 ${colorClass}`}>
+    <Link href={`/post/${post.slug}`} className="block w-full group">
+      {/* 모바일: 이미지 오버레이 카드 / 데스크탑: 좌우 분할 */}
+      <div className="relative w-full min-h-[60vw] sm:min-h-[50vw] lg:min-h-0 lg:flex lg:h-[80vh]">
+
+        {/* 이미지 영역 */}
+        <div className="relative w-full lg:w-1/2 h-64 sm:h-80 lg:h-full lg:sticky lg:top-0 overflow-hidden">
+          <div className="absolute inset-0 bg-black/40 lg:bg-black/30 z-10" />
+          {featuredImage ? (
+            <Image
+              src={featuredImage.source_url}
+              alt={featuredImage.alt_text || stripHtml(post.title.rendered)}
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover group-hover:scale-105 transition-transform duration-700"
+              priority
+            />
+          ) : (
+            <div className={`w-full h-full ${colorClass}`} />
+          )}
+
+          {/* 모바일 전용 오버레이 텍스트 */}
+          <div className="absolute inset-0 z-20 flex flex-col justify-end p-5 lg:hidden">
+            {primaryCategory.name && (
+              <span className={`self-start text-xs font-bold uppercase tracking-widest text-white px-2 py-1 mb-3 ${colorClass}`}>
+                {primaryCategory.name}
+              </span>
+            )}
+            <time className="text-xs text-white/60 mb-2">{formatDate(post.date)}</time>
+            <h2
+              className="text-xl font-bold leading-tight text-white line-clamp-3"
+              dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+            />
+            <p className="text-sm text-white/70 mt-2 line-clamp-2">
+              {stripHtml(post.excerpt.rendered)}
+            </p>
+          </div>
+        </div>
+
+        {/* 데스크탑 전용 오른쪽 패널 */}
+        <div className="hidden lg:flex w-1/2 flex-col justify-center px-16 py-12 bg-neutral-50">
+          {primaryCategory.name && (
+            <span className={`self-start text-xs font-bold uppercase tracking-widest text-white px-2 py-1 mb-4 ${colorClass}`}>
               {primaryCategory.name}
             </span>
-          </div>
-        )}
+          )}
+          <time className="text-xs text-gray-400 mb-4">{formatDate(post.date)}</time>
+          <h2
+            className="text-5xl font-bold leading-tight text-gray-900 mb-6 line-clamp-3"
+            dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+          />
+          <p className="text-gray-500 text-base leading-relaxed mb-8 line-clamp-3">
+            {stripHtml(post.excerpt.rendered)}
+          </p>
+          <span className="inline-flex items-center gap-2 text-sm font-semibold text-gray-900 group-hover:gap-4 transition-all duration-300">
+            읽어보기
+            <span className="group-hover:translate-x-1 transition-transform">→</span>
+          </span>
+        </div>
       </div>
-
-      {/* 오른쪽: 글 정보 */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 md:px-10 lg:px-16 py-12 bg-neutral-50">
-        <time className="text-xs text-gray-400 mb-4">{formatDate(post.date)}</time>
-        <h2
-          className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-gray-900 mb-6 line-clamp-3"
-          dangerouslySetInnerHTML={{ __html: post.title.rendered }}
-        />
-        <p className="text-gray-500 text-base leading-relaxed mb-8 line-clamp-3">
-          {stripHtml(post.excerpt.rendered)}
-        </p>
-        <Link
-          href={`/post/${post.slug}`}
-          className="inline-flex items-center gap-2 text-sm font-semibold text-gray-900 hover:gap-4 transition-all duration-300 group"
-        >
-          읽어보기
-          <span className="group-hover:translate-x-1 transition-transform">→</span>
-        </Link>
-      </div>
-    </div>
+    </Link>
   );
 }

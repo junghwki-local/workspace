@@ -15,23 +15,23 @@ export default function PageTransition({ children }: { children: React.ReactNode
       // 페이지 진입 애니메이션
       gsap.fromTo(
         containerRef.current,
-        { opacity: 0, y: 24 },
-        { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }
       );
 
       // 스크롤 트리거 — gs- 클래스 타겟
       gsap.utils.toArray<HTMLElement>(".gs-fade-up").forEach((el) => {
         gsap.fromTo(
           el,
-          { opacity: 0, y: 40 },
+          { opacity: 0, y: 24 },
           {
             opacity: 1,
             y: 0,
-            duration: 0.65,
+            duration: 0.5,
             ease: "power3.out",
             scrollTrigger: {
               trigger: el,
-              start: "top 88%",
+              start: "top 95%",
               toggleActions: "play none none none",
             },
           }
