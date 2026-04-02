@@ -1,9 +1,13 @@
 import Link from "next/link";
+import { auth } from "@/auth";
 import { getCategories } from "@/lib/wordpress/api";
 import SearchBar from "@/components/ui/SearchBar";
 
 export default async function Header() {
-  const categories = await getCategories().catch(() => []);
+  const [categories, session] = await Promise.all([
+    getCategories().catch(() => []),
+    auth(),
+  ]);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 mix-blend-difference">
@@ -30,7 +34,17 @@ export default async function Header() {
           ))}
         </nav>
 
-        <SearchBar />
+        <div className="flex items-center gap-3">
+          {session && (
+            <Link
+              href="/write"
+              className="text-white text-sm px-3 py-1 border border-white/40 hover:border-white transition-colors"
+            >
+              + 글쓰기
+            </Link>
+          )}
+          <SearchBar />
+        </div>
       </div>
     </header>
   );

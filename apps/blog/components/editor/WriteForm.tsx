@@ -10,7 +10,7 @@ export default function WriteForm() {
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [status, setStatus] = useState<"draft" | "publish">("draft");
+  const [status, setStatus] = useState<"draft" | "publish">("publish");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
 
@@ -36,8 +36,8 @@ export default function WriteForm() {
         throw new Error(err.error);
       }
 
-      const post = await res.json() as { slug: string };
-      router.push(`/post/${post.slug}`);
+      await res.json() as { slug: string; id: number };
+      router.push("/blog");
     } catch (err) {
       setError(err instanceof Error ? err.message : "오류가 발생했습니다.");
     } finally {
