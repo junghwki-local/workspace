@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { addComment } from "@/lib/supabase/comments";
+import { addComment, hashPassword } from "@/lib/supabase/comments";
 import { rateLimit, getIP } from "@/lib/rate-limit";
 import { z } from "zod";
-import { createHash } from "crypto";
 
 const AddCommentSchema = z.object({
   postId: z.number().int().positive(),
@@ -10,10 +9,6 @@ const AddCommentSchema = z.object({
   content: z.string().min(1).max(1000).trim(),
   password: z.string().min(4).max(100),
 });
-
-function hashPassword(password: string): string {
-  return createHash("sha256").update(password).digest("hex");
-}
 
 export async function POST(req: NextRequest) {
   const { success } = rateLimit(`comment:${getIP(req)}`, { limit: 5, windowMs: 60_000 });

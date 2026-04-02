@@ -1,16 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { deleteComment } from "@/lib/supabase/comments";
+import { deleteComment, hashPassword } from "@/lib/supabase/comments";
 import { rateLimit, getIP } from "@/lib/rate-limit";
 import { z } from "zod";
-import { createHash } from "crypto";
 
 const DeleteSchema = z.object({
   password: z.string().min(1),
 });
-
-function hashPassword(password: string): string {
-  return createHash("sha256").update(password).digest("hex");
-}
 
 export async function DELETE(
   req: NextRequest,

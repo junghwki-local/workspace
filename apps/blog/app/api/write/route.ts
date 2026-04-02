@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { revalidateTag } from "next/cache";
 import { auth } from "@/auth";
+import { wpAdminFetch } from "@/lib/wordpress/admin";
 import { z } from "zod";
 
 const schema = z.object({
@@ -23,41 +24,21 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "유효하지 않은 입력입니다." }, { status: 400 });
   }
 
-  const { title, content, status, categories, tags } = parsed.data;
+  try {
+    const post = await wpAdminFetch<{ slug: string; id: number }>("/posts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(parsed.data),
+    });
 
-  const wpUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL;
-  const wpUser = process.env.WP_USER;
-  const wpAppPassword = process.env.WP_APP_PASSWORD;
+    if (parsed.data.status === "publish") {
+      revalidateTag("posts", "max");
+      revalidateTag("categories", "max");
+    }
 
-  if (!wpUrl || !wpUser || !wpAppPassword) {
-    return NextResponse.json({ error: "WordPress 설정이 누락됐습니다." }, { status: 500 });
+    return NextResponse.json({ slug: post.slug, id: post.id });
+  } catch (err) {
+    const e = err as { message?: string; status?: number };
+    return NextResponse.json({ error: e.message ?? "오류가 발생했습니다." }, { status: e.status ?? 500 });
   }
-
-  const credentials = Buffer.from(`${wpUser}:${wpAppPassword}`).toString("base64");
-
-  const res = await fetch(`${wpUrl}/wp-json/wp/v2/posts`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Basic ${credentials}`,
-    },
-    body: JSON.stringify({ title, content, status, categories, tags }),
-  });
-
-  if (!res.ok) {
-    const err = await res.json() as { message?: string };
-    return NextResponse.json(
-      { error: err.message ?? "WordPress 오류가 발생했습니다." },
-      { status: res.status }
-    );
-  }
-
-  const post = await res.json() as { slug: string; id: number };
-
-  if (status === "publish") {
-    revalidateTag("posts", "max");
-    revalidateTag("categories", "max");
-  }
-
-  return NextResponse.json({ slug: post.slug, id: post.id });
 }

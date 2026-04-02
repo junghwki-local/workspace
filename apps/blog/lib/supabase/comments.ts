@@ -1,5 +1,10 @@
+import { createHash } from "crypto";
 import { supabase } from "./client";
 import type { Comment } from "./types";
+
+export function hashPassword(password: string): string {
+  return createHash("sha256").update(password).digest("hex");
+}
 
 export async function getComments(postId: number): Promise<Comment[]> {
   const { data, error } = await supabase
