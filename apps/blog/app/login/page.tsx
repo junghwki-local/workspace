@@ -1,9 +1,6 @@
-import { auth, signIn } from "@/auth";
-import { redirect } from "next/navigation";
+import { signIn } from "@/auth";
 
 export default async function LoginPage() {
-  const session = await auth();
-  if (session) redirect("/write");
 
   return (
     <div className="flex min-h-screen items-center justify-center">

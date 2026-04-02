@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { SessionProvider } from "next-auth/react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import LenisProvider from "@/components/animations/LenisProvider";
@@ -18,6 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko">
       <body className="bg-black text-white min-h-screen">
+        <SessionProvider>
         <QueryProvider>
           <LenisProvider>
             <CustomCursor />
@@ -26,6 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Footer />
           </LenisProvider>
         </QueryProvider>
+        </SessionProvider>
       </body>
     </html>
   );

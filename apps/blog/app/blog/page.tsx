@@ -6,7 +6,6 @@ import PostGrid from "@/components/blog/PostGrid";
 import Pagination from "@/components/ui/Pagination";
 import PageTransition from "@/components/animations/PageTransition";
 
-export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Blog",

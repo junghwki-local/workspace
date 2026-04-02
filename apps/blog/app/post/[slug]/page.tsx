@@ -7,7 +7,6 @@ import { formatDate, sanitizeContent, stripHtml, getCategoryColor } from "@/lib/
 import PageTransition from "@/components/animations/PageTransition";
 import CommentSectionClient from "@/components/comments/CommentSectionClient";
 
-export const dynamic = "force-dynamic";
 
 interface PostPageProps {
   params: Promise<{ slug: string }>;

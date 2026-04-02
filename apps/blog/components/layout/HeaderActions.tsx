@@ -1,0 +1,23 @@
+"use client";
+
+import Link from "next/link";
+import { useSession } from "next-auth/react";
+import SearchBar from "@/components/ui/SearchBar";
+
+export default function HeaderActions() {
+  const { data: session } = useSession();
+
+  return (
+    <div className="flex items-center gap-3">
+      {session && (
+        <Link
+          href="/write"
+          className="text-white text-sm px-3 py-1 border border-white/40 hover:border-white transition-colors"
+        >
+          + 글쓰기
+        </Link>
+      )}
+      <SearchBar />
+    </div>
+  );
+}

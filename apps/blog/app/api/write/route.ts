@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { auth } from "@/auth";
 import { z } from "zod";
 
@@ -50,5 +51,11 @@ export async function POST(request: Request) {
   }
 
   const post = await res.json() as { slug: string; id: number };
+
+  if (status === "publish") {
+    revalidateTag("posts", "max");
+    revalidateTag("categories", "max");
+  }
+
   return NextResponse.json({ slug: post.slug, id: post.id });
 }

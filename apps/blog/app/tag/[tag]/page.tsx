@@ -5,7 +5,6 @@ import PostGrid from "@/components/blog/PostGrid";
 import Pagination from "@/components/ui/Pagination";
 import PageTransition from "@/components/animations/PageTransition";
 
-export const dynamic = "force-dynamic";
 
 interface TagPageProps {
   params: Promise<{ tag: string }>;
