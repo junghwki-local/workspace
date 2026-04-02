@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
@@ -13,6 +14,21 @@ interface TiptapEditorProps {
 }
 
 export default function TiptapEditor({ content, onChange }: TiptapEditorProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  async function handleImageUpload(file: File) {
+    const formData = new FormData();
+    formData.append("file", file);
+    const res = await fetch("/api/upload", { method: "POST", body: formData });
+    if (!res.ok) {
+      const err = await res.json() as { error: string };
+      alert(err.error ?? "업로드 실패");
+      return null;
+    }
+    const { url } = await res.json() as { url: string };
+    return url;
+  }
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -101,15 +117,25 @@ export default function TiptapEditor({ content, onChange }: TiptapEditorProps) {
         </ToolbarButton>
         <div className="w-px bg-zinc-800 mx-1" />
         <ToolbarButton
-          onClick={() => {
-            const url = prompt("이미지 URL:");
-            if (url) editor.chain().focus().setImage({ src: url }).run();
-          }}
+          onClick={() => fileInputRef.current?.click()}
           active={false}
-          title="이미지"
+          title="이미지 업로드"
         >
           IMG
         </ToolbarButton>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={async (e) => {
+            const file = e.target.files?.[0];
+            if (!file) return;
+            e.target.value = "";
+            const url = await handleImageUpload(file);
+            if (url) editor.chain().focus().setImage({ src: url }).run();
+          }}
+        />
         <ToolbarButton
           onClick={() => {
             const url = prompt("링크 URL:");
