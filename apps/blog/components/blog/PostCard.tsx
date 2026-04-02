@@ -17,10 +17,9 @@ export default function PostCard({ post }: PostCardProps) {
   const excerpt = stripHtml(post.excerpt.rendered).slice(0, 80);
 
   return (
-    <article className="gs-fade-up group relative bg-neutral-50 border border-gray-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+    <article className="gs-fade-up group relative bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 overflow-hidden">
       <Link href={`/post/${post.slug}`} className="block">
-        {/* 썸네일 */}
-        <div className="relative w-full aspect-[16/9] overflow-hidden bg-zinc-200">
+        <div className="relative w-full aspect-[16/9] overflow-hidden bg-zinc-100 dark:bg-zinc-800">
           {featuredImage ? (
             <Image
               src={featuredImage.source_url}
@@ -34,9 +33,7 @@ export default function PostCard({ post }: PostCardProps) {
           )}
         </div>
 
-        {/* 콘텐츠 */}
         <div className="p-4 sm:p-5">
-          {/* 카테고리 + 날짜 */}
           <div className="flex items-center gap-2 mb-2 flex-wrap">
             {categories.slice(0, 2).map((cat) => (
               <span
@@ -46,17 +43,15 @@ export default function PostCard({ post }: PostCardProps) {
                 {cat.name}
               </span>
             ))}
-            <time className="text-xs text-gray-400 ml-auto">{formatDate(post.date)}</time>
+            <time className="text-xs text-zinc-400 ml-auto">{formatDate(post.date)}</time>
           </div>
 
-          {/* 제목 */}
           <h2
-            className="text-base sm:text-lg font-bold leading-snug mb-1.5 text-gray-900 line-clamp-2"
+            className="text-base sm:text-lg font-bold leading-snug mb-1.5 text-zinc-900 dark:text-white line-clamp-2"
             dangerouslySetInnerHTML={{ __html: post.title.rendered }}
           />
 
-          {/* 요약 */}
-          <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed">{excerpt}</p>
+          <p className="text-sm text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">{excerpt}</p>
         </div>
       </Link>
     </article>

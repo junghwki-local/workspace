@@ -7,6 +7,7 @@ import Footer from "@/components/layout/Footer";
 import LenisProvider from "@/components/animations/LenisProvider";
 import CustomCursor from "@/components/animations/CustomCursor";
 import QueryProvider from "@/components/providers/QueryProvider";
+import ThemeProvider from "@/components/providers/ThemeProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -18,8 +19,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko">
-      <body className="bg-black text-white min-h-screen">
+    <html lang="ko" suppressHydrationWarning>
+      <body className="min-h-screen">
+        <ThemeProvider>
         <SessionProvider>
         <QueryProvider>
           <LenisProvider>
@@ -27,10 +29,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Header />
             <main>{children}</main>
             <Footer />
-            <Toaster theme="dark" position="bottom-right" richColors />
+            <Toaster theme="system" position="bottom-right" richColors />
           </LenisProvider>
         </QueryProvider>
         </SessionProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

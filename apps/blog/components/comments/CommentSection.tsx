@@ -76,7 +76,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
   }
 
   return (
-    <section className="mt-16 pt-10 border-t border-zinc-800" aria-label="댓글">
+    <section className="mt-16 pt-10 border-t border-zinc-200 dark:border-zinc-800" aria-label="댓글">
       <h2 className="text-xl font-bold mb-8">
         댓글 <span className="text-zinc-500 text-base font-normal">{comments.length}</span>
       </h2>
@@ -126,7 +126,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
               placeholder="이름"
               required
               maxLength={50}
-              className="w-full bg-transparent border-b border-zinc-700 pb-2 text-sm placeholder:text-zinc-600 focus:outline-none focus:border-white transition-colors"
+              className="w-full bg-transparent border-b border-zinc-300 dark:border-zinc-700 pb-2 text-sm placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-zinc-900 dark:focus:border-white transition-colors"
             />
           </div>
           <div>
@@ -140,7 +140,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
               required
               minLength={4}
               maxLength={100}
-              className="w-full bg-transparent border-b border-zinc-700 pb-2 text-sm placeholder:text-zinc-600 focus:outline-none focus:border-white transition-colors"
+              className="w-full bg-transparent border-b border-zinc-300 dark:border-zinc-700 pb-2 text-sm placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-zinc-900 dark:focus:border-white transition-colors"
             />
           </div>
         </div>
@@ -155,7 +155,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
             required
             maxLength={1000}
             rows={4}
-            className="w-full bg-zinc-950 border border-zinc-800 px-4 py-3 text-sm placeholder:text-zinc-600 focus:outline-none focus:border-zinc-600 transition-colors resize-none"
+            className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 px-4 py-3 text-sm placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition-colors resize-none"
           />
           <p className="text-xs text-zinc-700 text-right mt-1">{content.length}/1000</p>
         </div>
@@ -167,7 +167,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
         <button
           type="submit"
           disabled={addMutation.isPending}
-          className="px-6 py-2 bg-white text-black text-sm font-semibold hover:opacity-80 disabled:opacity-30 transition-opacity"
+          className="px-6 py-2 bg-zinc-900 dark:bg-white text-white dark:text-black text-sm font-semibold hover:opacity-80 disabled:opacity-30 transition-opacity"
         >
           {addMutation.isPending ? "등록 중..." : "댓글 등록"}
         </button>
@@ -178,7 +178,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
 
 function CommentItem({ comment, onDelete }: { comment: Comment; onDelete: () => void }) {
   return (
-    <div className="group border-b border-zinc-900 pb-6">
+    <div className="group border-b border-zinc-100 dark:border-zinc-900 pb-6">
       <div className="flex items-center justify-between mb-2">
         <span className="text-sm font-semibold">{comment.author}</span>
         <div className="flex items-center gap-4">

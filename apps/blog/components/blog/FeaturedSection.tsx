@@ -19,7 +19,6 @@ export default function FeaturedSection({ post, categoryName, categorySlug }: Fe
 
   return (
     <Link href={`/post/${post.slug}`} className="block w-full group">
-      {/* 모바일: 이미지 오버레이 카드 / 데스크탑: 좌우 분할 */}
       <div className="relative w-full min-h-[60vw] sm:min-h-[50vw] lg:min-h-0 lg:flex lg:h-[80vh]">
 
         {/* 이미지 영역 */}
@@ -57,21 +56,21 @@ export default function FeaturedSection({ post, categoryName, categorySlug }: Fe
         </div>
 
         {/* 데스크탑 전용 오른쪽 패널 */}
-        <div className="hidden lg:flex w-1/2 flex-col justify-center px-16 py-12 bg-neutral-50">
+        <div className="hidden lg:flex w-1/2 flex-col justify-center px-16 py-12 bg-zinc-50 dark:bg-zinc-950">
           {primaryCategory.name && (
             <span className={`self-start text-xs font-bold uppercase tracking-widest text-white px-2 py-1 mb-4 ${colorClass}`}>
               {primaryCategory.name}
             </span>
           )}
-          <time className="text-xs text-gray-400 mb-4">{formatDate(post.date)}</time>
+          <time className="text-xs text-zinc-400 mb-4">{formatDate(post.date)}</time>
           <h2
-            className="text-5xl font-bold leading-tight text-gray-900 mb-6 line-clamp-3"
+            className="text-5xl font-bold leading-tight text-zinc-900 dark:text-white mb-6 line-clamp-3"
             dangerouslySetInnerHTML={{ __html: post.title.rendered }}
           />
-          <p className="text-gray-500 text-base leading-relaxed mb-8 line-clamp-3">
+          <p className="text-zinc-500 dark:text-zinc-400 text-base leading-relaxed mb-8 line-clamp-3">
             {stripHtml(post.excerpt.rendered)}
           </p>
-          <span className="inline-flex items-center gap-2 text-sm font-semibold text-gray-900 group-hover:gap-4 transition-all duration-300">
+          <span className="inline-flex items-center gap-2 text-sm font-semibold text-zinc-900 dark:text-white group-hover:gap-4 transition-all duration-300">
             읽어보기
             <span className="group-hover:translate-x-1 transition-transform">→</span>
           </span>

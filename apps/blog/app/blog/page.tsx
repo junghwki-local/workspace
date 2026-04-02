@@ -52,7 +52,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
           <p className="text-xs text-zinc-500 uppercase tracking-widest mb-3">
             {categoryData?.name ?? search ? `"${search}" 검색 결과` : "All Posts"}
           </p>
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white">
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-zinc-900 dark:text-white">
             {categoryData?.name ?? (search ? search : "Blog")}
           </h1>
           {categoryData && (

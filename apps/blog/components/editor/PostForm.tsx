@@ -134,8 +134,8 @@ export default function PostForm({
                 onClick={() => toggle(setSelectedCategories, cat.id)}
                 className={`px-3 py-1 text-xs border transition-colors ${
                   selectedCategories.includes(cat.id)
-                    ? "border-white bg-white text-black"
-                    : "border-zinc-700 text-zinc-400 hover:border-zinc-500"
+                    ? "border-zinc-900 bg-zinc-900 text-white dark:border-white dark:bg-white dark:text-black"
+                    : "border-zinc-300 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:border-zinc-500"
                 }`}
               >
                 {cat.name}
@@ -156,8 +156,8 @@ export default function PostForm({
                 onClick={() => toggle(setSelectedTags, tag.id)}
                 className={`px-3 py-1 text-xs border transition-colors ${
                   selectedTags.includes(tag.id)
-                    ? "border-white bg-white text-black"
-                    : "border-zinc-700 text-zinc-400 hover:border-zinc-500"
+                    ? "border-zinc-900 bg-zinc-900 text-white dark:border-white dark:bg-white dark:text-black"
+                    : "border-zinc-300 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:border-zinc-500"
                 }`}
               >
                 #{tag.name}
@@ -173,7 +173,7 @@ export default function PostForm({
         <select
           value={status}
           onChange={(e) => setStatus(e.target.value as "draft" | "publish")}
-          className="bg-zinc-900 border border-zinc-800 text-sm px-3 py-2 focus:outline-none focus:border-zinc-600 transition-colors"
+          className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 text-sm px-3 py-2 focus:outline-none focus:border-zinc-500 dark:focus:border-zinc-600 transition-colors"
         >
           <option value="draft">임시저장</option>
           <option value="publish">발행</option>
@@ -182,7 +182,7 @@ export default function PostForm({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="px-6 py-2 bg-white text-black text-sm font-semibold hover:opacity-80 disabled:opacity-30 transition-opacity"
+          className="px-6 py-2 bg-zinc-900 dark:bg-white text-white dark:text-black text-sm font-semibold hover:opacity-80 disabled:opacity-30 transition-opacity"
         >
           {isSubmitting
             ? "저장 중..."

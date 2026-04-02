@@ -3,13 +3,29 @@
 @plugin "@tailwindcss/typography";
 
 :root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --fg: #09090b;
+  --muted: #71717a;
+  --border: #e4e4e7;
+  --surface: #f4f4f5;
+  --surface-2: #fafafa;
+}
+
+.dark {
   color-scheme: dark;
+  --bg: #000000;
+  --fg: #ffffff;
+  --muted: #71717a;
+  --border: #27272a;
+  --surface: #09090b;
+  --surface-2: #18181b;
 }
 
 body {
   font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: #000;
-  color: #fff;
+  background-color: var(--bg);
+  color: var(--fg);
   -webkit-font-smoothing: antialiased;
   cursor: none;
 }

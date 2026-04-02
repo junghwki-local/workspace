@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import SearchBar from "@/components/ui/SearchBar";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 
 export default function HeaderActions() {
   const { data: session } = useSession();
@@ -26,6 +27,7 @@ export default function HeaderActions() {
         </>
       )}
       <SearchBar />
+      <ThemeToggle />
     </div>
   );
 }
