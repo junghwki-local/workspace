@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 import nextDynamic from "next/dynamic";
 import { toast } from "sonner";
 import type { WPCategory, WPTag } from "@/lib/wordpress/types";
@@ -31,6 +32,7 @@ export default function PostForm({
   categories,
   tags,
 }: PostFormProps) {
+  const t = useTranslations("write");
   const router = useRouter();
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
@@ -48,7 +50,7 @@ export default function PostForm({
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!title.trim() || !content.trim()) {
-      setError("제목과 내용을 입력해주세요.");
+      setError(t("validationError"));
       return;
     }
 
@@ -72,8 +74,8 @@ export default function PostForm({
 
       const { slug } = await res.json() as { slug: string };
       const successMsg = mode === "create"
-        ? (status === "publish" ? "글이 발행되었습니다." : "임시저장되었습니다.")
-        : "글이 수정되었습니다.";
+        ? (status === "publish" ? "✓ Published" : "✓ Saved")
+        : "✓ Updated";
 
       toast.success(successMsg);
 
@@ -116,7 +118,7 @@ export default function PostForm({
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="제목"
+          placeholder={t("titlePlaceholder")}
           className="w-full bg-transparent text-3xl font-bold placeholder:text-zinc-700 border-b border-zinc-800 pb-3 focus:outline-none focus:border-white transition-colors"
         />
       </div>
@@ -125,7 +127,7 @@ export default function PostForm({
 
       {categories.length > 0 && (
         <div>
-          <p className="text-xs text-zinc-500 uppercase tracking-widest mb-3">카테고리</p>
+          <p className="text-xs text-zinc-500 uppercase tracking-widest mb-3">{t("categories")}</p>
           <div className="flex flex-wrap gap-2">
             {categories.map((cat) => (
               <button
@@ -147,7 +149,7 @@ export default function PostForm({
 
       {tags.length > 0 && (
         <div>
-          <p className="text-xs text-zinc-500 uppercase tracking-widest mb-3">태그</p>
+          <p className="text-xs text-zinc-500 uppercase tracking-widest mb-3">{t("tags")}</p>
           <div className="flex flex-wrap gap-2">
             {tags.map((tag) => (
               <button
@@ -175,8 +177,8 @@ export default function PostForm({
           onChange={(e) => setStatus(e.target.value as "draft" | "publish")}
           className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 text-sm px-3 py-2 focus:outline-none focus:border-zinc-500 dark:focus:border-zinc-600 transition-colors"
         >
-          <option value="draft">임시저장</option>
-          <option value="publish">발행</option>
+          <option value="draft">{t("draft")}</option>
+          <option value="publish">{t("publish")}</option>
         </select>
 
         <button
@@ -185,20 +187,20 @@ export default function PostForm({
           className="px-6 py-2 bg-zinc-900 dark:bg-white text-white dark:text-black text-sm font-semibold hover:opacity-80 disabled:opacity-30 transition-opacity"
         >
           {isSubmitting
-            ? "저장 중..."
+            ? t("saving")
             : mode === "edit"
-            ? "수정 저장"
+            ? t("saveButton")
             : status === "publish"
-            ? "발행하기"
-            : "임시저장"}
+            ? t("publishButton")
+            : t("draft")}
         </button>
 
         <button
           type="button"
           onClick={() => router.back()}
-          className="text-sm text-zinc-500 hover:text-white transition-colors"
+          className="text-sm text-zinc-500 hover:text-current transition-colors"
         >
-          취소
+          {t("cancel")}
         </button>
 
         {mode === "edit" && (
@@ -208,7 +210,7 @@ export default function PostForm({
             disabled={isDeleting}
             className="ml-auto text-sm text-red-600 hover:text-red-400 disabled:opacity-30 transition-colors"
           >
-            {isDeleting ? "삭제 중..." : "글 삭제"}
+            {isDeleting ? t("deleting") : t("deletePost")}
           </button>
         )}
       </div>

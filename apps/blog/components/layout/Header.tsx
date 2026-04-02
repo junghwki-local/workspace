@@ -1,10 +1,14 @@
-import Link from "next/link";
 import { getCategories } from "@/lib/wordpress/api";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import HeaderActions from "./HeaderActions";
 import MobileNav from "./MobileNav";
 
 export default async function Header() {
-  const categories = await getCategories().catch(() => []);
+  const [categories, t] = await Promise.all([
+    getCategories().catch(() => []),
+    getTranslations("nav"),
+  ]);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 mix-blend-difference">
@@ -18,7 +22,7 @@ export default async function Header() {
 
         <nav className="hidden md:flex items-center gap-6">
           <Link href="/blog" className="text-white text-sm hover:underline underline-offset-4 decoration-1">
-            ALL
+            {t("all")}
           </Link>
           {categories.slice(0, 5).map((cat) => (
             <Link

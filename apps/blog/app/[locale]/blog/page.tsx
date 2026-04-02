@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { getPosts, getCategoryBySlug } from "@/lib/wordpress/api";
 import FeaturedSection from "@/components/blog/FeaturedSection";
 import PostGrid from "@/components/blog/PostGrid";
@@ -22,6 +23,7 @@ interface BlogPageProps {
 }
 
 export default async function BlogPage({ searchParams }: BlogPageProps) {
+  const t = await getTranslations("blog");
   const params = await searchParams;
   const currentPage = Number(params.page ?? 1);
   const search = params.search?.trim();
@@ -50,13 +52,13 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
         {/* 헤더 섹션 */}
         <div className="max-w-screen-xl mx-auto px-4 md:px-8 py-10 md:py-16">
           <p className="text-xs text-zinc-500 uppercase tracking-widest mb-3">
-            {categoryData?.name ?? search ? `"${search}" 검색 결과` : "All Posts"}
+            {search ? t("searchResult", { query: search }) : t("allPosts")}
           </p>
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-zinc-900 dark:text-white">
-            {categoryData?.name ?? (search ? search : "Blog")}
+            {categoryData?.name ?? (search ? search : t("title"))}
           </h1>
           {categoryData && (
-            <p className="text-sm text-zinc-500 mt-2">{categoryData.count}개의 글</p>
+            <p className="text-sm text-zinc-500 mt-2">{t("postCount", { count: categoryData.count })}</p>
           )}
         </div>
 

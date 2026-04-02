@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { getComments } from "@/lib/supabase/comments";
 import type { Comment } from "@/lib/supabase/types";
@@ -12,6 +13,7 @@ interface CommentSectionProps {
 }
 
 export default function CommentSection({ postId }: CommentSectionProps) {
+  const t = useTranslations("comments");
   const queryClient = useQueryClient();
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
@@ -68,7 +70,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
   });
 
   function handleDelete(id: string) {
-    const pwd = prompt("비밀번호를 입력하세요:");
+    const pwd = prompt(t("deletePrompt"));
     if (!pwd) return;
     startTransition(() => {
       deleteMutation.mutate({ id, pwd });
@@ -78,7 +80,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
   return (
     <section className="mt-16 pt-10 border-t border-zinc-200 dark:border-zinc-800" aria-label="댓글">
       <h2 className="text-xl font-bold mb-8">
-        댓글 <span className="text-zinc-500 text-base font-normal">{comments.length}</span>
+        {t("title")} <span className="text-zinc-500 text-base font-normal">{comments.length}</span>
       </h2>
 
       {/* 댓글 목록 */}
@@ -93,13 +95,14 @@ export default function CommentSection({ postId }: CommentSectionProps) {
             ))}
           </div>
         ) : comments.length === 0 ? (
-          <p className="text-zinc-600 text-sm">첫 번째 댓글을 남겨보세요.</p>
+          <p className="text-zinc-600 text-sm">{t("empty")}</p>
         ) : (
           comments.map((comment) => (
             <CommentItem
               key={comment.id}
               comment={comment}
               onDelete={() => handleDelete(comment.id)}
+              deleteLabel={t("delete")}
             />
           ))
         )}
@@ -113,7 +116,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
         }}
         className="space-y-4"
       >
-        <h3 className="text-sm font-semibold uppercase tracking-widest text-zinc-400">댓글 작성</h3>
+        <h3 className="text-sm font-semibold uppercase tracking-widest text-zinc-400">{t("write")}</h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
@@ -123,7 +126,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
               type="text"
               value={author}
               onChange={(e) => setAuthor(e.target.value)}
-              placeholder="이름"
+              placeholder={t("namePlaceholder")}
               required
               maxLength={50}
               className="w-full bg-transparent border-b border-zinc-300 dark:border-zinc-700 pb-2 text-sm placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-zinc-900 dark:focus:border-white transition-colors"
@@ -136,7 +139,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="비밀번호 (삭제 시 필요)"
+              placeholder={t("passwordPlaceholder")}
               required
               minLength={4}
               maxLength={100}
@@ -151,7 +154,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
             id="comment-content"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="댓글 내용을 입력하세요"
+            placeholder={t("contentPlaceholder")}
             required
             maxLength={1000}
             rows={4}
@@ -169,14 +172,14 @@ export default function CommentSection({ postId }: CommentSectionProps) {
           disabled={addMutation.isPending}
           className="px-6 py-2 bg-zinc-900 dark:bg-white text-white dark:text-black text-sm font-semibold hover:opacity-80 disabled:opacity-30 transition-opacity"
         >
-          {addMutation.isPending ? "등록 중..." : "댓글 등록"}
+          {addMutation.isPending ? t("submitting") : t("submit")}
         </button>
       </form>
     </section>
   );
 }
 
-function CommentItem({ comment, onDelete }: { comment: Comment; onDelete: () => void }) {
+function CommentItem({ comment, onDelete, deleteLabel }: { comment: Comment; onDelete: () => void; deleteLabel: string }) {
   return (
     <div className="group border-b border-zinc-100 dark:border-zinc-900 pb-6">
       <div className="flex items-center justify-between mb-2">
@@ -186,9 +189,9 @@ function CommentItem({ comment, onDelete }: { comment: Comment; onDelete: () => 
           <button
             onClick={onDelete}
             className="text-xs text-zinc-700 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
-            aria-label="댓글 삭제"
+            aria-label={deleteLabel}
           >
-            삭제
+            {deleteLabel}
           </button>
         </div>
       </div>

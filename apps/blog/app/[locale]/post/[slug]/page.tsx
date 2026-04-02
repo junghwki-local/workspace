@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { getPostBySlug } from "@/lib/wordpress/api";
 import { formatDate, sanitizeContent, stripHtml, getCategoryColor } from "@/lib/utils";
 import PageTransition from "@/components/animations/PageTransition";
@@ -50,6 +51,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
 }
 
 export default async function PostPage({ params }: PostPageProps) {
+  const t = await getTranslations("post");
   const { slug } = await params;
   const post = await getPostBySlug(slug).catch(() => null);
 
@@ -181,7 +183,7 @@ export default async function PostPage({ params }: PostPageProps) {
                 className="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-white transition-colors group"
               >
                 <span className="group-hover:-translate-x-1 transition-transform">←</span>
-                목록으로
+                {t("backToList")}
               </Link>
             </div>
           </div>

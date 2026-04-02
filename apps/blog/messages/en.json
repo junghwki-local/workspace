@@ -1,0 +1,65 @@
+{
+  "nav": {
+    "all": "ALL",
+    "write": "+ Write",
+    "drafts": "Drafts"
+  },
+  "blog": {
+    "title": "Blog",
+    "allPosts": "All Posts",
+    "searchResult": "Results for \"{query}\"",
+    "postCount": "{count} posts",
+    "loading": "Loading...",
+    "readMore": "Read more"
+  },
+  "post": {
+    "backToList": "Back to list",
+    "relatedPosts": "Related posts"
+  },
+  "comments": {
+    "title": "Comments",
+    "write": "Leave a comment",
+    "namePlaceholder": "Name",
+    "passwordPlaceholder": "Password (required to delete)",
+    "contentPlaceholder": "Write a comment...",
+    "submit": "Submit",
+    "submitting": "Submitting...",
+    "delete": "Delete",
+    "empty": "Be the first to comment.",
+    "deletePrompt": "Enter your password:"
+  },
+  "write": {
+    "newTitle": "New Post",
+    "editTitle": "Edit Post",
+    "titlePlaceholder": "Title",
+    "categories": "Categories",
+    "tags": "Tags",
+    "draft": "Draft",
+    "publish": "Publish",
+    "publishButton": "Publish",
+    "saveButton": "Save changes",
+    "saving": "Saving...",
+    "cancel": "Cancel",
+    "deletePost": "Delete post",
+    "deleting": "Deleting...",
+    "newPost": "+ New post",
+    "validationError": "Title and content are required."
+  },
+  "drafts": {
+    "title": "Drafts",
+    "empty": "No drafts yet.",
+    "edit": "Edit",
+    "noTitle": "(No title)",
+    "lastModified": "Modified: {date}"
+  },
+  "auth": {
+    "loginTitle": "Admin Login",
+    "loginDesc": "Sign in to write posts.",
+    "loginGoogle": "Sign in with Google",
+    "logout": "Sign out",
+    "admin": "Admin"
+  },
+  "common": {
+    "error": "An error occurred."
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "nav": {
+    "all": "ALL",
+    "write": "+ 글쓰기",
+    "drafts": "임시저장"
+  },
+  "blog": {
+    "title": "Blog",
+    "allPosts": "All Posts",
+    "searchResult": "\"{query}\" 검색 결과",
+    "postCount": "{count}개의 글",
+    "loading": "불러오는 중...",
+    "readMore": "읽어보기"
+  },
+  "post": {
+    "backToList": "목록으로",
+    "relatedPosts": "관련 글"
+  },
+  "comments": {
+    "title": "댓글",
+    "write": "댓글 작성",
+    "namePlaceholder": "이름",
+    "passwordPlaceholder": "비밀번호 (삭제 시 필요)",
+    "contentPlaceholder": "댓글 내용을 입력하세요",
+    "submit": "댓글 등록",
+    "submitting": "등록 중...",
+    "delete": "삭제",
+    "empty": "첫 번째 댓글을 남겨보세요.",
+    "deletePrompt": "비밀번호를 입력하세요:"
+  },
+  "write": {
+    "newTitle": "새 글 작성",
+    "editTitle": "글 수정",
+    "titlePlaceholder": "제목",
+    "categories": "카테고리",
+    "tags": "태그",
+    "draft": "임시저장",
+    "publish": "발행",
+    "publishButton": "발행하기",
+    "saveButton": "수정 저장",
+    "saving": "저장 중...",
+    "cancel": "취소",
+    "deletePost": "글 삭제",
+    "deleting": "삭제 중...",
+    "newPost": "+ 새 글",
+    "validationError": "제목과 내용을 입력해주세요."
+  },
+  "drafts": {
+    "title": "임시저장 글",
+    "empty": "임시저장된 글이 없습니다.",
+    "edit": "수정",
+    "noTitle": "(제목 없음)",
+    "lastModified": "수정: {date}"
+  },
+  "auth": {
+    "loginTitle": "관리자 로그인",
+    "loginDesc": "글을 작성하려면 로그인이 필요합니다.",
+    "loginGoogle": "Google로 로그인",
+    "logout": "로그아웃",
+    "admin": "Admin"
+  },
+  "common": {
+    "error": "오류가 발생했습니다."
+  }
+}
