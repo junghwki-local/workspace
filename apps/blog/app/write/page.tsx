@@ -1,5 +1,6 @@
 import { auth, signOut } from "@/auth";
 import { redirect } from "next/navigation";
+import { getCategories, getTags } from "@/lib/wordpress/api";
 import WriteForm from "@/components/editor/WriteForm";
 
 export const dynamic = "force-dynamic";
@@ -7,6 +8,11 @@ export const dynamic = "force-dynamic";
 export default async function WritePage() {
   const session = await auth();
   if (!session) redirect("/login");
+
+  const [categories, tags] = await Promise.all([
+    getCategories().catch(() => []),
+    getTags().catch(() => []),
+  ]);
 
   return (
     <div className="pt-24 pb-16 min-h-screen">
@@ -31,7 +37,7 @@ export default async function WritePage() {
           </div>
         </div>
 
-        <WriteForm />
+        <WriteForm categories={categories} tags={tags} />
       </div>
     </div>
   );

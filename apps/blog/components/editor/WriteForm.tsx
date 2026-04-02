@@ -3,16 +3,37 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import nextDynamic from "next/dynamic";
+import { toast } from "sonner";
+import type { WPCategory, WPTag } from "@/lib/wordpress/types";
 
 const TiptapEditor = nextDynamic(() => import("./TiptapEditor"), { ssr: false });
 
-export default function WriteForm() {
+interface WriteFormProps {
+  categories: WPCategory[];
+  tags: WPTag[];
+}
+
+export default function WriteForm({ categories, tags }: WriteFormProps) {
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [status, setStatus] = useState<"draft" | "publish">("publish");
+  const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
+  const [selectedTags, setSelectedTags] = useState<number[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+
+  function toggleCategory(id: number) {
+    setSelectedCategories((prev) =>
+      prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]
+    );
+  }
+
+  function toggleTag(id: number) {
+    setSelectedTags((prev) =>
+      prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id]
+    );
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -28,7 +49,13 @@ export default function WriteForm() {
       const res = await fetch("/api/write", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, content, status }),
+        body: JSON.stringify({
+          title,
+          content,
+          status,
+          categories: selectedCategories,
+          tags: selectedTags,
+        }),
       });
 
       if (!res.ok) {
@@ -36,10 +63,19 @@ export default function WriteForm() {
         throw new Error(err.error);
       }
 
-      await res.json() as { slug: string; id: number };
-      router.push("/blog");
+      const { slug } = await res.json() as { slug: string; id: number };
+
+      if (status === "publish") {
+        toast.success("글이 발행되었습니다.");
+        router.push(`/blog/${slug}`);
+      } else {
+        toast.success("임시저장되었습니다.");
+        router.push("/blog");
+      }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "오류가 발생했습니다.");
+      const msg = err instanceof Error ? err.message : "오류가 발생했습니다.";
+      setError(msg);
+      toast.error(msg);
     } finally {
       setIsSubmitting(false);
     }
@@ -60,6 +96,52 @@ export default function WriteForm() {
 
       {/* 에디터 */}
       <TiptapEditor content={content} onChange={setContent} />
+
+      {/* 카테고리 */}
+      {categories.length > 0 && (
+        <div>
+          <p className="text-xs text-zinc-500 uppercase tracking-widest mb-3">카테고리</p>
+          <div className="flex flex-wrap gap-2">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => toggleCategory(cat.id)}
+                className={`px-3 py-1 text-xs border transition-colors ${
+                  selectedCategories.includes(cat.id)
+                    ? "border-white bg-white text-black"
+                    : "border-zinc-700 text-zinc-400 hover:border-zinc-500"
+                }`}
+              >
+                {cat.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* 태그 */}
+      {tags.length > 0 && (
+        <div>
+          <p className="text-xs text-zinc-500 uppercase tracking-widest mb-3">태그</p>
+          <div className="flex flex-wrap gap-2">
+            {tags.map((tag) => (
+              <button
+                key={tag.id}
+                type="button"
+                onClick={() => toggleTag(tag.id)}
+                className={`px-3 py-1 text-xs border transition-colors ${
+                  selectedTags.includes(tag.id)
+                    ? "border-white bg-white text-black"
+                    : "border-zinc-700 text-zinc-400 hover:border-zinc-500"
+                }`}
+              >
+                #{tag.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {error && (
         <p className="text-sm text-red-500" role="alert">{error}</p>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getCategories } from "@/lib/wordpress/api";
 import HeaderActions from "./HeaderActions";
+import MobileNav from "./MobileNav";
 
 export default async function Header() {
   const categories = await getCategories().catch(() => []);
@@ -30,7 +31,10 @@ export default async function Header() {
           ))}
         </nav>
 
-        <HeaderActions />
+        <div className="flex items-center gap-2">
+          <HeaderActions />
+          <MobileNav categories={categories} />
+        </div>
       </div>
     </header>
   );

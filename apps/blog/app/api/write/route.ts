@@ -7,6 +7,8 @@ const schema = z.object({
   title: z.string().min(1).max(200),
   content: z.string().min(1),
   status: z.enum(["draft", "publish"]),
+  categories: z.array(z.number()).optional().default([]),
+  tags: z.array(z.number()).optional().default([]),
 });
 
 export async function POST(request: Request) {
@@ -21,7 +23,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "유효하지 않은 입력입니다." }, { status: 400 });
   }
 
-  const { title, content, status } = parsed.data;
+  const { title, content, status, categories, tags } = parsed.data;
 
   const wpUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL;
   const wpUser = process.env.WP_USER;
@@ -39,7 +41,7 @@ export async function POST(request: Request) {
       "Content-Type": "application/json",
       Authorization: `Basic ${credentials}`,
     },
-    body: JSON.stringify({ title, content, status }),
+    body: JSON.stringify({ title, content, status, categories, tags }),
   });
 
   if (!res.ok) {

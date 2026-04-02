@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 import { getComments } from "@/lib/supabase/comments";
 import type { Comment } from "@/lib/supabase/types";
 import { formatDate } from "@/lib/utils";
@@ -42,8 +43,12 @@ export default function CommentSection({ postId }: CommentSectionProps) {
       setPassword("");
       setFormError("");
       void queryClient.invalidateQueries({ queryKey: ["comments", postId] });
+      toast.success("댓글이 등록되었습니다.");
     },
-    onError: (err: Error) => setFormError(err.message),
+    onError: (err: Error) => {
+      setFormError(err.message);
+      toast.error(err.message);
+    },
   });
 
   const deleteMutation = useMutation({
@@ -57,8 +62,9 @@ export default function CommentSection({ postId }: CommentSectionProps) {
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["comments", postId] });
+      toast.success("댓글이 삭제되었습니다.");
     },
-    onError: (err: Error) => alert(err.message),
+    onError: (err: Error) => toast.error(err.message),
   });
 
   function handleDelete(id: string) {
