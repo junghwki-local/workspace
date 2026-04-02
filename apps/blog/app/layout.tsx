@@ -4,6 +4,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import LenisProvider from "@/components/animations/LenisProvider";
 import CustomCursor from "@/components/animations/CustomCursor";
+import QueryProvider from "@/components/providers/QueryProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -17,12 +18,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko">
       <body className="bg-black text-white min-h-screen">
-        <LenisProvider>
-          <CustomCursor />
-          <Header />
-          <main>{children}</main>
-          <Footer />
-        </LenisProvider>
+        <QueryProvider>
+          <LenisProvider>
+            <CustomCursor />
+            <Header />
+            <main>{children}</main>
+            <Footer />
+          </LenisProvider>
+        </QueryProvider>
       </body>
     </html>
   );
