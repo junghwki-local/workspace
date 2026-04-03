@@ -2,6 +2,7 @@ import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import type { WPPost } from "@/lib/wordpress/types";
 import { formatDate, getCategoryColor, stripHtml } from "@/lib/utils";
+import PostExcerpt from "./PostExcerpt";
 
 interface PostCardProps {
   post: WPPost;
@@ -14,7 +15,7 @@ export default function PostCard({ post }: PostCardProps) {
   const colorClass = primaryCategory
     ? getCategoryColor(primaryCategory.slug, primaryCategory.name)
     : "bg-zinc-700";
-  const excerpt = stripHtml(post.excerpt.rendered).slice(0, 80);
+  const excerpt = stripHtml(post.excerpt.rendered).slice(0, 300);
 
   return (
     <article className="gs-fade-up group relative bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 overflow-hidden">
@@ -51,7 +52,11 @@ export default function PostCard({ post }: PostCardProps) {
             dangerouslySetInnerHTML={{ __html: post.title.rendered }}
           />
 
-          <p className="text-sm text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">{excerpt}</p>
+          <PostExcerpt
+            text={excerpt}
+            maxLines={2}
+            className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed"
+          />
         </div>
       </Link>
     </article>
