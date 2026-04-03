@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { revalidateTag } from "next/cache";
 import { auth } from "@/auth";
-import { wpAdminFetch } from "@/lib/wordpress/admin";
+import { wpAdminFetch, WPAdminError } from "@/lib/wordpress/admin";
 import { z } from "zod";
 
 const schema = z.object({
@@ -38,7 +38,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ slug: post.slug, id: post.id });
   } catch (err) {
-    const e = err as { message?: string; status?: number };
-    return NextResponse.json({ error: e.message ?? "오류가 발생했습니다." }, { status: e.status ?? 500 });
+    if (err instanceof WPAdminError) {
+      return NextResponse.json({ error: err.message }, { status: err.status });
+    }
+    return NextResponse.json({ error: "오류가 발생했습니다." }, { status: 500 });
   }
 }

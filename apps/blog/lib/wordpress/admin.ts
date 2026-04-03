@@ -3,6 +3,15 @@
  * Use only in server-side code (API routes, Server Components).
  */
 
+export class WPAdminError extends Error {
+  status: number;
+  constructor(message: string, status: number) {
+    super(message);
+    this.name = "WPAdminError";
+    this.status = status;
+  }
+}
+
 interface WPAdminConfig {
   url: string;
   credentials: string;
@@ -38,8 +47,11 @@ export async function wpAdminFetch<T>(
   });
 
   if (!res.ok) {
-    const err = await res.json().catch(() => ({})) as { message?: string };
-    throw Object.assign(new Error(err.message ?? "WordPress 오류"), { status: res.status });
+    const body: unknown = await res.json().catch(() => ({}));
+    const message = typeof body === "object" && body !== null && "message" in body && typeof (body as Record<string, unknown>).message === "string"
+      ? (body as Record<string, unknown>).message as string
+      : "WordPress 오류";
+    throw new WPAdminError(message, res.status);
   }
 
   if (res.status === 204) return undefined as T;

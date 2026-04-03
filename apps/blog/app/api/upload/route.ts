@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { wpAdminFetch } from "@/lib/wordpress/admin";
+import { wpAdminFetch, WPAdminError } from "@/lib/wordpress/admin";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp"];
 const MAX_SIZE = 10 * 1024 * 1024; // 10MB
@@ -37,7 +37,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ url: media.source_url, id: media.id });
   } catch (err) {
-    const e = err as { message?: string; status?: number };
-    return NextResponse.json({ error: e.message ?? "업로드 실패" }, { status: e.status ?? 500 });
+    if (err instanceof WPAdminError) {
+      return NextResponse.json({ error: err.message }, { status: err.status });
+    }
+    return NextResponse.json({ error: "업로드 실패" }, { status: 500 });
   }
 }
