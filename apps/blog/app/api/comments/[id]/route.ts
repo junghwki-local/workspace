@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { deleteComment, hashPassword } from "@/lib/supabase/comments";
+import { deleteComment } from "@/lib/supabase/comments";
 import { rateLimit, getIP } from "@/lib/rate-limit";
 import { z } from "zod";
 
@@ -25,7 +25,7 @@ export async function DELETE(
     return NextResponse.json({ error: "비밀번호를 입력해주세요." }, { status: 400 });
   }
 
-  await deleteComment({ id, passwordHash: hashPassword(parsed.data.password) });
+  await deleteComment({ id, password: parsed.data.password });
 
   return new NextResponse(null, { status: 204 });
 }

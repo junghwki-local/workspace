@@ -1,9 +1,9 @@
-import { createHash } from "crypto";
+import bcrypt from "bcryptjs";
 import { supabase } from "./client";
 import type { Comment } from "./types";
 
-export function hashPassword(password: string): string {
-  return createHash("sha256").update(password).digest("hex");
+export async function hashPassword(password: string): Promise<string> {
+  return bcrypt.hash(password, 10);
 }
 
 export async function getComments(postId: number): Promise<Comment[]> {
@@ -40,16 +40,22 @@ export async function addComment({
 
 export async function deleteComment({
   id,
-  passwordHash,
+  password,
 }: {
   id: string;
-  passwordHash: string;
+  password: string;
 }): Promise<void> {
-  const { error } = await supabase
+  const { data, error: fetchError } = await supabase
     .from("comments")
-    .delete()
+    .select("password_hash")
     .eq("id", id)
-    .eq("password_hash", passwordHash);
+    .single();
 
+  if (fetchError || !data) throw new Error("댓글을 찾을 수 없습니다.");
+
+  const match = await bcrypt.compare(password, (data as { password_hash: string }).password_hash);
+  if (!match) throw new Error("비밀번호가 틀렸습니다.");
+
+  const { error } = await supabase.from("comments").delete().eq("id", id);
   if (error) throw new Error(error.message);
 }

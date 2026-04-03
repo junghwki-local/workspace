@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
     postId,
     author,
     content,
-    passwordHash: hashPassword(password),
+    passwordHash: await hashPassword(password),
   });
 
   return NextResponse.json(comment, { status: 201 });
