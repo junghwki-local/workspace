@@ -20,7 +20,7 @@ export default async function Header() {
           ✦ BLOG
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden md:flex items-center gap-6" aria-label="주요 내비게이션">
           <Link href="/blog" className="text-white text-sm hover:underline underline-offset-4 decoration-1">
             {t("all")}
           </Link>

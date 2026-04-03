@@ -24,7 +24,9 @@ export default function SearchBar() {
       {open && (
         <input
           autoFocus
-          type="text"
+          type="search"
+          role="searchbox"
+          aria-label="블로그 검색"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => {

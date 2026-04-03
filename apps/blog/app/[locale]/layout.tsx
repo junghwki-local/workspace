@@ -48,9 +48,15 @@ export default async function LocaleLayout({
             <SessionProvider>
               <QueryProvider>
                 <LenisProvider>
+                  <a
+                    href="#main-content"
+                    className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:text-sm focus:font-medium"
+                  >
+                    본문으로 바로가기
+                  </a>
                   <CustomCursor />
                   <Header />
-                  <main>{children}</main>
+                  <main id="main-content">{children}</main>
                   <Footer />
                   <Toaster theme="system" position="bottom-right" richColors />
                 </LenisProvider>
