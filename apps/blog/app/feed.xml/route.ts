@@ -1,7 +1,6 @@
 import { getPosts } from "@/lib/wordpress/api";
 import { stripHtml } from "@/lib/utils";
-
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://your-domain.com";
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/site";
 
 function escapeXml(str: string): string {
   return str
@@ -19,7 +18,7 @@ export async function GET() {
     .map((post) => {
       const title = escapeXml(stripHtml(post.title.rendered));
       const description = escapeXml(stripHtml(post.excerpt.rendered).slice(0, 300));
-      const link = `${BASE_URL}/post/${post.slug}`;
+      const link = `${SITE_URL}/post/${post.slug}`;
       const pubDate = new Date(post.date).toUTCString();
 
       return `
@@ -36,12 +35,12 @@ export async function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Blog</title>
-    <link>${BASE_URL}/blog</link>
-    <description>WordPress Headless Blog powered by Next.js</description>
+    <title>${SITE_NAME}</title>
+    <link>${SITE_URL}/blog</link>
+    <description>${SITE_DESCRIPTION}</description>
     <language>ko</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
-    <atom:link href="${BASE_URL}/feed.xml" rel="self" type="application/rss+xml"/>
+    <atom:link href="${SITE_URL}/feed.xml" rel="self" type="application/rss+xml"/>
     ${items}
   </channel>
 </rss>`;

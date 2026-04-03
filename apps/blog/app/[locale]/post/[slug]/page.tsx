@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { SITE_URL } from "@/lib/site";
 import { getPostBySlug } from "@/lib/wordpress/api";
 import { formatDate, sanitizeContent, stripHtml, getCategoryColor } from "@/lib/utils";
 import PageTransition from "@/components/animations/PageTransition";
@@ -27,8 +28,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
   const description = stripHtml(post.excerpt.rendered).slice(0, 160);
   const image = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
   const category = post._embedded?.["wp:term"]?.[0]?.[0]?.name ?? "";
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
-  const ogImageUrl = `${siteUrl}/api/og?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&category=${encodeURIComponent(category)}`;
+  const ogImageUrl = `${SITE_URL}/api/og?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&category=${encodeURIComponent(category)}`;
 
   return {
     title,
@@ -63,7 +63,6 @@ export default async function PostPage({ params }: PostPageProps) {
   const sanitizedContent = sanitizeContent(post.content.rendered);
   const initialViewCount = await getViewCount(post.id).catch(() => 0);
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -71,7 +70,7 @@ export default async function PostPage({ params }: PostPageProps) {
     description: stripHtml(post.excerpt.rendered).slice(0, 160),
     datePublished: post.date,
     dateModified: post.modified,
-    url: `${siteUrl}/post/${slug}`,
+    url: `${SITE_URL}/post/${slug}`,
     ...(featuredImage && {
       image: {
         "@type": "ImageObject",
@@ -84,7 +83,7 @@ export default async function PostPage({ params }: PostPageProps) {
     publisher: {
       "@type": "Organization",
       name: "Blog",
-      url: siteUrl,
+      url: SITE_URL,
     },
     keywords: tags.map((t) => t.name).join(", "),
   };

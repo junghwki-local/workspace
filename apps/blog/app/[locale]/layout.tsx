@@ -11,18 +11,17 @@ import CustomCursor from "@/components/animations/CustomCursor";
 import QueryProvider from "@/components/providers/QueryProvider";
 import ThemeProvider from "@/components/providers/ThemeProvider";
 import { routing } from "@/i18n/routing";
-
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://your-domain.com";
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: {
-    default: "Blog",
-    template: "%s | Blog",
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
   },
-  description: "WordPress Headless Blog powered by Next.js",
+  description: SITE_DESCRIPTION,
   alternates: {
     types: {
-      "application/rss+xml": `${BASE_URL}/feed.xml`,
+      "application/rss+xml": `${SITE_URL}/feed.xml`,
     },
   },
 };
