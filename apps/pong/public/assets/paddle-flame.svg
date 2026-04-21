@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="28" viewBox="0 0 220 28">
+  <defs>
+    <clipPath id="c">
+      <rect x="1" y="2" width="218" height="22" rx="11"/>
+    </clipPath>
+    <linearGradient id="fg" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%"   stop-color="#880000"/>
+      <stop offset="45%"  stop-color="#ff4400"/>
+      <stop offset="100%" stop-color="#ffcc00"/>
+    </linearGradient>
+    <linearGradient id="fh" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#660000" stop-opacity="0.7"/>
+      <stop offset="20%"  stop-color="transparent"/>
+      <stop offset="80%"  stop-color="transparent"/>
+      <stop offset="100%" stop-color="#660000" stop-opacity="0.7"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 글로우 -->
+  <rect x="5" y="8" width="210" height="14" rx="7" fill="#ff5500" opacity="0.5"/>
+
+  <g clip-path="url(#c)">
+    <!-- 베이스 그라디언트 -->
+    <rect x="0" y="0" width="220" height="28" fill="url(#fg)"/>
+    <!-- 좌우 어둠 -->
+    <rect x="0" y="0" width="220" height="28" fill="url(#fh)"/>
+    <!-- 불꽃 코어 (밝은 중심) -->
+    <ellipse cx="60"  cy="22" rx="22" ry="9" fill="#ffaa00" opacity="0.45"/>
+    <ellipse cx="110" cy="24" rx="30" ry="7" fill="#ffcc00" opacity="0.4"/>
+    <ellipse cx="160" cy="22" rx="22" ry="9" fill="#ffaa00" opacity="0.45"/>
+    <!-- 상단 하이라이트 -->
+    <rect x="12" y="2" width="196" height="5" rx="2.5" fill="#ffee88" opacity="0.5"/>
+    <!-- 불꽃 팁들 -->
+    <polygon points="30,2 38,2 34,10" fill="#ffee00" opacity="0.6"/>
+    <polygon points="60,2 70,2 65,11" fill="#ffee00" opacity="0.6"/>
+    <polygon points="95,2 107,2 101,12" fill="#ffee00" opacity="0.6"/>
+    <polygon points="130,2 142,2 136,11" fill="#ffee00" opacity="0.6"/>
+    <polygon points="160,2 170,2 165,10" fill="#ffee00" opacity="0.6"/>
+    <polygon points="188,2 198,2 193,10" fill="#ffee00" opacity="0.6"/>
+  </g>
+
+  <!-- 테두리 -->
+  <rect x="1" y="2" width="218" height="22" rx="11" fill="none" stroke="#ff7700" stroke-width="1.5"/>
+</svg>
