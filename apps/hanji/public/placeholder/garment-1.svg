@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" role="img" aria-label="순백 수의">
+  <rect width="300" height="400" fill="#F5EFE1"/>
+  <g fill="#FFFFFF" stroke="#D2C4A6" stroke-width="1.5">
+    <path d="M105 80 Q150 60 195 80 L215 130 L190 140 L190 320 Q190 350 150 360 Q110 350 110 320 L110 140 L85 130 Z"/>
+    <path d="M80 130 Q70 180 65 230 L110 210 L110 140 Z"/>
+    <path d="M220 130 Q230 180 235 230 L190 210 L190 140 Z"/>
+  </g>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" role="img" aria-label="한지 수의">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#EFE6D4"/>
+      <stop offset="100%" stop-color="#D8CBB3"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="800" fill="url(#bg)"/>
+  <g fill="#FAF5EA" stroke="#C6B89A" stroke-width="2">
+    <path d="M210 180 Q300 140 390 180 L430 260 L380 280 L380 620 Q380 700 300 720 Q220 700 220 620 L220 280 L170 260 Z"/>
+    <path d="M150 260 Q130 340 120 420 L220 380 L220 280 Z"/>
+    <path d="M450 260 Q470 340 480 420 L380 380 L380 280 Z"/>
+  </g>
+  <text x="300" y="770" text-anchor="middle" fill="#8A7A5A" font-family="serif" font-size="14" letter-spacing="4">HANJI · PLACEHOLDER</text>
+</svg>

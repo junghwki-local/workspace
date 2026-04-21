@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" role="img" aria-label="단아 수의">
+  <rect width="300" height="400" fill="#F3ECDB"/>
+  <g fill="#FCF7EC" stroke="#C6B89A" stroke-width="1.5">
+    <path d="M110 90 Q150 72 190 90 L210 140 L185 150 L185 310 Q185 340 150 348 Q115 340 115 310 L115 150 L90 140 Z"/>
+    <path d="M90 140 Q78 190 75 240 L115 218 L115 150 Z"/>
+    <path d="M210 140 Q222 190 225 240 L185 218 L185 150 Z"/>
+  </g>
+</svg>

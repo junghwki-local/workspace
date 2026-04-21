@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" role="img" aria-label="고렴 수의">
+  <rect width="300" height="400" fill="#EDE4D0"/>
+  <g fill="#FAF3E3" stroke="#B9A784" stroke-width="1.5">
+    <path d="M106 80 Q150 62 194 80 L214 134 L188 144 L188 316 Q188 344 150 352 Q112 344 112 316 L112 144 L86 134 Z"/>
+    <path d="M82 134 Q72 184 68 234 L112 214 L112 144 Z"/>
+    <path d="M218 134 Q228 184 232 234 L188 214 L188 144 Z"/>
+  </g>
+</svg>

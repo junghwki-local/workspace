@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #f6efe0;
+  --color-bg-muted: #efe6d4;
+  --color-bg-panel: #ffffff;
+  --color-surface: #faf5ea;
+  --color-ink: #2a241c;
+  --color-ink-soft: #6c6457;
+  --color-ink-faint: #a79f8e;
+  --color-line: #e4dccb;
+  --color-accent: #8a7a5a;
+
+  --font-serif: var(--font-noto-serif-kr), "Noto Serif KR", serif;
+  --font-sans: var(--font-noto-sans-kr), "Noto Sans KR", system-ui, sans-serif;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* Respect reduced motion for GSAP-driven animations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Initial states for GSAP entry animations (prevents flash before JS hydrates) */
+.gs-fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+/* Focus styles for keyboard accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Header background transition (toggled by ScrollTrigger) */
+#site-header.is-scrolled {
+  background-color: color-mix(in oklab, var(--color-bg) 85%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 1px 0 var(--color-line);
+}

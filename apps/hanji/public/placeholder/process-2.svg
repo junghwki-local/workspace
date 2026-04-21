@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="봉제">
+  <rect width="400" height="400" fill="#E8DEC8"/>
+  <path d="M60 260 Q200 160 340 260" stroke="#A89679" stroke-width="3" fill="none"/>
+  <path d="M60 280 Q200 180 340 280" stroke="#C6B89A" stroke-width="2" fill="none"/>
+  <circle cx="200" cy="200" r="6" fill="#8A7A5A"/>
+  <text x="200" y="380" text-anchor="middle" fill="#8A7A5A" font-family="serif" font-size="14">SEWING</text>
+</svg>

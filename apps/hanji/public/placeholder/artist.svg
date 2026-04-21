@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="작가 프로필">
+  <defs>
+    <clipPath id="circle"><circle cx="100" cy="100" r="100"/></clipPath>
+  </defs>
+  <g clip-path="url(#circle)">
+    <rect width="200" height="200" fill="#2B2520"/>
+    <circle cx="100" cy="85" r="38" fill="#E8DEC8" opacity="0.9"/>
+    <ellipse cx="100" cy="180" rx="75" ry="55" fill="#E8DEC8" opacity="0.9"/>
+  </g>
+</svg>

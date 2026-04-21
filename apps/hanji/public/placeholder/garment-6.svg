@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" role="img" aria-label="풍류 수의">
+  <rect width="300" height="400" fill="#F4EBD5"/>
+  <g fill="#FCF5E6" stroke="#C4B28E" stroke-width="1.5">
+    <path d="M108 78 Q150 60 192 78 L214 132 L188 142 L188 314 Q188 344 150 352 Q112 344 112 314 L112 142 L86 132 Z"/>
+    <path d="M82 132 Q72 182 68 232 L112 212 L112 142 Z"/>
+    <path d="M218 132 Q228 182 232 232 L188 212 L188 142 Z"/>
+  </g>
+</svg>
